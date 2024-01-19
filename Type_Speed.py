@@ -3,7 +3,7 @@ import random
 
 
 def generate_random_text(words):
-    text = ' '.join(random.choice(words) for _ in range(50))
+    text = ' '.join(random.choice(words) for i in range(50))
     return text
 
 
