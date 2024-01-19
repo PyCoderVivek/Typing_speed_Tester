@@ -1,41 +1,43 @@
-import tkinter as tk
 import time
+import random
 
-class TypingSpeedTester:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Typing Speed Tester")
 
-        self.text_to_type = "This is a typing speed test. Type this as fast as you can!"
-        self.entry = tk.Entry(root, width=50)
-        self.entry.pack(pady=10)
+def generate_random_text(words):
+    text = ' '.join(random.choice(words) for _ in range(50))
+    return text
 
-        self.start_button = tk.Button(root, text="Start Typing Test", command=self.start_test)
-        self.start_button.pack()
 
-        self.result_label = tk.Label(root, text="")
-        self.result_label.pack(pady=10)
+def calculate_typing_speed(start_time, end_time, typed_text):
+    words_per_minute = len(typed_text.split()) / ((end_time - start_time) / 60)
+    return words_per_minute
 
-    def start_test(self):
-        self.start_time = time.time()
-        self.entry.config(state=tk.NORMAL)
-        self.entry.delete(0, tk.END)
-        self.entry.insert(0, self.text_to_type)
-        self.entry.bind("<Return>", self.check_speed)
-        self.start_button.config(state=tk.DISABLED)
 
-    def check_speed(self, event):
-        typed_text = self.entry.get()
-        end_time = time.time()
-        time_taken = end_time - self.start_time
-        words_per_minute = (len(typed_text.split()) / time_taken) * 60
+def typing_speed_test():
+    # words = ["python", "programming", "challenge", "keyboard", "practice", "speed", "testing", "accuracy"]
+    original_text = ("The Indian Army has the sole objective of protecting the nation from any foreign aggression "
+                     "that"
+                     "arises, ensuring the nation's security. They also try to prevent the nation from internal \n  "
+                     "threats. During natural calamities, the Indian Army conducts humanitarian rescue operations to \n"
+                     "save many people's lives")
 
-        self.result_label.config(text=f"Your typing speed: {words_per_minute:.2f} words per minute")
-        self.entry.config(state=tk.DISABLED)
-        self.start_button.config(state=tk.NORMAL)
-        self.entry.unbind("<Return>")
+    print("Type the following:")
+    print(original_text)
+
+    input("Press Enter when you are ready to start typing.")
+
+    print("Start typing...")
+
+    start_time = time.time()
+    typed_text = input("Type here: ")
+    end_time = time.time()
+
+    elapsed_time = end_time - start_time
+
+    words_per_minute = calculate_typing_speed(start_time, end_time, typed_text)
+
+    print(f"\nYour typing speed: {words_per_minute:.2f} words per minute")
+    print(f"You spend   : {elapsed_time:.2f} seconds on this typing test ")
+
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    typing_speed_tester = TypingSpeedTester(root)
-    root.mainloop()
+    typing_speed_test()
